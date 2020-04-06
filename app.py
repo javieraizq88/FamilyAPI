@@ -40,25 +40,50 @@ def family(id = None):
             members = fam.get_all_members() # devuelve todos los members
             return jsonify(members), 200
 
+
     if request.method == 'POST':
         name = request.json.get("name", None)
-
-        if not name and name == "":
-            return jsonify({"msg": "Field name is required"}), 400  # 400 o 422
+        age = request.json.get("age", None)
+        lucky_number = request.json.get("lucky_number", None)
         
-        member = fam.add_member({"name": name}) # make a new member
+        if not request.json.get("name", None):
+            return jsonify({"name": "Agrega el nombre"}), 400  # 400 o 422
+        if not request.json.get("age", None):
+            return jsonify({"age": "agrega la edad asopao"}), 400  # 400 o 422
+        if not request.json.get("lucky_number", None):
+            return jsonify({"lucky number": "Field age is required"}), 400  # 400 o 422
+        else:
+            pass
+        
+        member = fam.add_member({"name": name, "age": age, "lucky number": lucky_number}) # make a new member
         return jsonify(member), 201
-        
+
+
     if request.method == 'PUT':
-        pass
+        name = request.json.get("name", None)
+        age = request.json.get("age", None)
+        lucky_number = request.json.get("lucky_number", None)
+        
+        if not request.json.get("name", None):
+            return jsonify({"name": "Agrega el nombre"}), 400  # 400 o 422
+        if not request.json.get("age", None):
+            return jsonify({"age": "agrega la edad asopao"}), 400  # 400 o 422
+        if not request.json.get("lucky_number", None):
+            return jsonify({"lucky number": "is required"}), 400  # 400 o 422
+
+        newUpdate = {
+            "name":request.json.get("name", None),
+            "age":request.json.get("age", None),
+            "lucky_number":request.json.get("lucky_number", None)
+        }
+        
+        member = fam.update_member(id, newUpdate)
+        return jsonify(member), 200
+
 
     if request.method == 'DELETE':
         pass
 
-@manager.command
-def hello():
-    "Just say hello"
-    print("hello")
 
 if __name__ == '__main__':
     manager.run()
